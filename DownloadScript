@@ -1,0 +1,36 @@
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        // GitHub file download URL
+        string githubUrl = "";
+
+        // Local path where the file will be saved
+        string localFilePath = "C:\\Path\\To\\Save\\filename";
+
+        Console.WriteLine("Starting download...");
+
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // Download the file from GitHub
+                byte[] fileBytes = await client.GetByteArrayAsync(githubUrl);
+
+                // Save the file locally
+                await File.WriteAllBytesAsync(localFilePath, fileBytes);
+
+                Console.WriteLine($"File downloaded successfully to: {localFilePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+}
